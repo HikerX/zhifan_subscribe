@@ -54,9 +54,9 @@ print(f"{len(v2ray_urls)} v2ray_url, {len(ss_ssr_urls)} ss_ssr_urls")
 #format
 #sub_urls = [u.replace("&amp;", "&")  for u in urls ]
 #print(sub_urls)
-//ss+ssr
+#ss+ssr
 ssrSubContent = base64.b64encode("\n".join(ss_ssr_urls).encode("utf-8")).decode("utf-8");
-//ss+v2
+#ss+v2
 v2SubContent = base64.b64encode("\n".join(sub_urls).encode("utf-8")).decode("utf-8");
 write_to_local("ssr_sub", ssrSubContent)
 write_to_local("v2ray_sub", v2SubContent)
