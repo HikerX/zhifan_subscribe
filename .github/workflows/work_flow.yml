@@ -1,4 +1,4 @@
-name: Auto Update Wiki and README
+name: Auto Update SSR and Xray
 
 on:
   schedule:
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 检出主仓库（包含 README.md 和脚本）
+      # 1. 检出主仓库（包含 v2_sub, ssr_sub 和 脚本）
       - name: Checkout Main Repository
         uses: actions/checkout@v3
         with:
@@ -35,12 +35,11 @@ jobs:
         run: |
           python get_v2ray_sub.py
 
-      # 6. 提交和推送更新到主仓库（README.md）
-      - name: Commit and Push README Updates
+      # 6. 提交和推送更新到主仓库
+      - name: Commit and Push Updates
         run: |
           git config --local user.name "github-actions"
-          git config --local user.email "actions@github.com"
-          git add README.md
+          git config --local user.email "actions@github.com"          
           git add .
-          git commit -m "Auto-update Wiki: Increment domains and update timestamp" || echo "No changes to commit"          
+          git commit -m "Auto-update subscribe file" || echo "No changes to commit"          
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/HikerX/zhifan_subscribe.git
