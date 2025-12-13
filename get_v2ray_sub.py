@@ -25,7 +25,7 @@ def read_from_local(file_name):
 #html = read_from_local("v2ray_demo.html");
 
 #github
-ss_ssr_urls = re.findall(r"data-snippet-clipboard-copy-content=\"([^\"]+)\"", ssr_html);
+ss_ssr_urls = re.findall(r"data-snippet-clipboard-copy-content=\"([^\"]+)\"", ss_html);
 v2_mix_urls = re.findall(r"data-snippet-clipboard-copy-content=\"([^\"]+)\"", v2ray_html);
 
 #gitlab
