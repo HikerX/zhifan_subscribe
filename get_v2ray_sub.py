@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
 '''
-两个目标
-1,从alvin9999提供的html页面，提取 uri，整理成 v2ray订阅
-2,从上一步和其它人的分享的v2ray订阅中，整理 ss 和 ssr 订阅
-
+目标
+1,从alvin9999提供的html页面，提取 ss,ssr和v2ray uri，整理成适用于 v2ray订阅;
+2,从第一步和其它人的分享的v2ray订阅中，整理 ss 订阅
+3,从第一步的uri中 ssr uir，整理成 适用 ssr订阅
 背景
 常见加密协议 shadowsocks(ss), shadowsocksR(ssr), xray(vless, vmess, torjan)
 
@@ -12,14 +12,17 @@ URI,对应协议。
 类似网址，提供配置信息，定位到单一服务器地址，格式为"ss://, ssr://, vmess://..."
 
 订阅 多个服务器配置集合，对应客户端。
-常见 base64文本，(ssr, v2ray, karing, shadowrocket)，yaml(clash),json(ss,
-singbox)
-
-从客户端，新出的app更先进，支持的协议多，更多功能也多，如一键测速，自动更新订阅，分流。
-
-对比之下，原生的ss和ssr客户端，都只支持各自对应协议，较为单一。且ss不支持局域网共享。
+常见订阅格式有 base64文本，(ssr, v2rayN, karing, shadowrocket)，yaml(clash),
+json(ss,singbox)
+注意：区分订阅传输格式和软件运行配置文件格式。比如，v2rayN 订阅b64文本，v2ray-core 
+的配置是json. 另外，虽然 ss 的订阅和配置文件格式都是json,但内部的键值并不完全一样。
+一般，协议作者会自己主导一个客户端，如ss,ssr,v2ray-core，这里称为官方客户端。
+原生的ss和ssr客户端，都只支持各自对应协议，较为单一。且安卓ss不支持局域网共享。
 ssr作者已经删库了，不再更新了。ss虽有更新，但不频频繁。
 优点，占用资源少。内存，电池用量（手机端比v2ray显著节能），且感觉ssr体验更稳定。
+
+第三方客户端，支持的协议多，兼容的平台多，功能多，如一键测速，自动更新订阅，分流。
+为此，会把一些 协议的核心 core 整合到一起，且使用图形库，造成资源占用高。
 
 采用的策略是，把 ss 和 ssr当主用, 而把v2ray当备用。
 
@@ -38,6 +41,15 @@ remarks=6ZmQ6YCf5biQ5Y-3IEFsdmluOTk5OQ&group=RnJlZVNTUi1wdWJsaWM
 
 另外，ssr app 虽然支持手动导入 ss uri,但是似乎并不能正常使用，且订阅示例中，只有ssr，
 没有ss,故没再深究是否支持ss订阅。
+
+https://github.com/ssrsub/ssr
+https://github.com/Alvin9999/new-pac
+https://github.com/Pawdroid/Free-servers
+https://github.com/ripaojiedian/freenode
+
+github代理
+https://proxy.v2gh.com/
+https://gh-proxy.com/
 '''
 
 import requests;
@@ -47,7 +59,8 @@ import json
 import uuid;
 import urllib.parse
 
-
+#https://raw.githubusercontent.com/wiki/Alvin9999/new-pac/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md
+#https://raw.githubusercontent.com/wiki/Alvin9999/new-pac/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md
 ss_url_github = "https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7";
 v2ray_url_github = "https://github.com/Alvin9999/new-pac/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7";
 #url = "https://gitlab.com/zhifan999/fq/-/wikis/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
@@ -94,7 +107,8 @@ def trans_uri2cfg(ss_uri):
 	cfg = {'id': uuidv4, \
 	'remarks': urllib.parse.unquote(matched.group('tag')),\
 	'server': matched.group('hostname'),\
-	'server_port': matched.group('port'),\
+	#为了兼容ss-rust, 这里要转换成数字，而非字符
+	'server_port': int(matched.group('port')),\
 	'password': info_sub[1],\
 	'method': info_sub[0],\
 	'plugin': '',\
