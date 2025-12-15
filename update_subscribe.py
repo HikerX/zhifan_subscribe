@@ -148,8 +148,8 @@ def main():
 	
 	print(f"读取指定文档, 当前北京时间为 {current_time}")
 	
-	write_to_local("ss免费账号.md", md_ss)
-	write_to_local("v2ray免费账号.md", md_v2ray)
+	write_to_local("wiki_ss.md", md_ss)
+	write_to_local("wiki_v2ray.md", md_v2ray)
 	#html = read_from_local("v2ray_demo.html");
 
 	#github

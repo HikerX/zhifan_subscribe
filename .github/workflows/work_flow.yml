@@ -33,7 +33,7 @@ jobs:
       # 5. 运行更新脚本
       - name: Run Update Script
         run: |
-          python update_sub_by_md.py
+          python update_subscribe.py
 
       # 6. 提交和推送更新到主仓库
       - name: Commit and Push Updates
