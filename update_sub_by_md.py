@@ -64,14 +64,14 @@ import urllib.parse
 IS_GITHUB_ACTION = bool(os.getenv("GITHUB_ACTION"));
 
 if IS_GITHUB_ACTION:
-    url_ss_source = "https://raw.githubusercontent.com/wiki/Alvin9999/new-pac/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md";
-    url_v2ray_source = "https://raw.githubusercontent.com/wiki/Alvin9999/new-pac/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md"; 
-    #实测 虽然广告多，可用，速度高
-    ssv2_url_fn="https://raw.githubusercontent.com/ssrsub/ssr/master/v2ray";
+	url_ss_source = "https://raw.githubusercontent.com/wiki/Alvin9999/new-pac/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md";
+	url_v2ray_source = "https://raw.githubusercontent.com/wiki/Alvin9999/new-pac/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md"; 
+	#实测 虽然广告多，可用，速度高
+	ssv2_url_fn="https://raw.githubusercontent.com/ssrsub/ssr/master/v2ray";
 else:
-    url_ss_source = "https://gitlab.com/zhifan999/fq/-/wikis/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md";
-    url_v2ray_source = "https://gitlab.com/zhifan999/fq/-/wikis/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md";
-    ssv2_url_fn="https://proxy.v2gh.com/https://raw.githubusercontent.com/ssrsub/ssr/master/v2ray";
+	url_ss_source = "https://gitlab.com/zhifan999/fq/-/wikis/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md";
+	url_v2ray_source = "https://gitlab.com/zhifan999/fq/-/wikis/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md";
+	ssv2_url_fn="https://proxy.v2gh.com/https://raw.githubusercontent.com/ssrsub/ssr/master/v2ray";
 
 #实测 uri多，但是基本都是无效
 #ssv2_url_fn = "https://proxy.v2gh.com/https://raw.githubusercontent.com/free-nodes/v2rayfree/main/v2"
@@ -81,125 +81,128 @@ shanghai_tz = pytz.timezone("Asia/Shanghai")
 current_time = datetime.now(shanghai_tz).strftime("%Y/%m/%d %H:%M")
 
 def write_to_local(file_name, content):
-    with open(file_name, "w") as file:
-        file.write(content);       
+	with open(file_name, "w") as file:
+		file.write(content);       
 
 #write_to_local("v2ray_demo.html", html);
 
 def read_from_local(file_name):
-    with open(file_name, "r") as file:
-        return file.read();
+	with open(file_name, "r") as file:
+		return file.read();
 
 #将SS-URI链接转换为在线更新要求的json格式配置
 #https://shadowsocks.org/doc/sip008.html
-def trans_uri2cfg(ss_uri):
-    #SS-URI = "ss://" userinfo "@" hostname ":" port [ "/" ] [ "?" plugin ] [ "#" tag ]
-    #userinfo = websafe-base64-encode-utf8(method  ":" password)
-    #           method ":" password 
-    # hostname ipv4 111.22.22.33:2345, 
-    #ipv6 [2001:bc8:32d7:2013::10]:1111，提取ipv6地址需注意包围[]
-    mPattern = r"ss://(?P<userinfo>[\w=+-]+)@\[?(?P<hostname>[A-Za-z0-9:.]+)\]?:(?P<port>[A-Za-z0-9:.]+)#(?P<tag>.+)"
-    matched = re.search(mPattern, ss_uri)
-    #print(matched.group("hostname"))
-    #print(matched.group("port"))    
-    info_ec = matched.group("userinfo");
-    while len(info_ec) % 4 != 0:
-        info_ec += "=";
-    info = base64.urlsafe_b64decode(
-    info_ec.encode("utf-8")).decode("utf-8")   
-    info_sub = info.split(":");
-    uuidv4 = str(uuid.uuid4())
-    #print(uuidv4)
-    
-    cfg = {\
-         'id': uuidv4, \
-        'remarks': urllib.parse.unquote(matched.group('tag')),\
-        'server': matched.group('hostname'),\
-        #为了兼容ss-rust, 这里要转换成数字，而非字符
-        'server_port': int(matched.group('port')),\
-        'password': info_sub[1],\
-        'method': info_sub[0],\
-        'plugin': '',\
-        'plugin_opts': ''\
-    }    
-    #print(cfg);
-    return cfg
-        
+def trans_uri2cfg(uri_ss_encoded):
+	#SS-URI = "ss://" userinfo "@" hostname ":" port [ "/" ] [ "?" plugin ] [ "#" tag ]
+	#userinfo = websafe-base64-encode-utf8(method  ":" password)
+	#           method ":" password 
+	# hostname ipv4 111.22.22.33:2345, 
+	#ipv6 [2001:bc8:32d7:2013::10]:1111，提取ipv6地址需注意包围[]
+	unquoted_uri = urllib.parse.unquote(uri_ss_encoded);
+	#print(unquoted_uri);
+	pattern_ss = r"ss://(?P<userinfo>[\w=+-]+)@\[?(?P<hostname>[A-Za-z0-9:.]+)\]?:(?P<port>[A-Za-z0-9:.]+)(/\?plugin=)?(?P<plugin>[^;]+)?;?(?P<plugin_opts>[^#]+)?#(?P<tag>.+)"
+	matched = re.match(pattern_ss, unquoted_uri)
+	#print(matched.group("hostname"))
+	#print(matched.group("port"))    
+	info_ec = matched.group("userinfo");
+	while len(info_ec) % 4 != 0:
+		info_ec += "=";
+	info = base64.urlsafe_b64decode(
+	info_ec.encode("utf-8")).decode("utf-8")   
+	info_sub = info.split(":");
+	uuidv4 = str(uuid.uuid4())
+	#print(uuidv4)
+	
+	cfg = {\
+		'id': uuidv4, \
+		'remarks': urllib.parse.unquote(matched.group('tag')),\
+		'server': matched.group('hostname'),\
+		#为了兼容ss-rust, 这里要转换成数字，而非字符
+		'server_port': int(matched.group('port')),\
+		'password': info_sub[1],\
+		'method': info_sub[0],\
+		#如没有，则为“”， 而非null
+		'plugin': matched.group('plugin') or "",\
+		'plugin_opts': matched.group('plugin_opts') or ""\
+	}    
+	#print(cfg);
+	return cfg
+		
 def add_ssr_group(ssr_url):
-    content = ssr_url.replace("ssr://", "")
-    while len(content) % 4 !=0:
-        content += "=";
-    plain_content = base64.urlsafe_b64decode(content.encode("utf-8"))\
-    .decode("utf-8");    
-    #根据模板，添加"group"属性
-    plain_content += "&group=eXVuZmFu"; #yunfan    
-    return "ssr://" + base64.urlsafe_b64encode(
-    plain_content.encode("utf-8")).decode("utf-8");            
+	content = ssr_url.replace("ssr://", "")
+	while len(content) % 4 !=0:
+		content += "=";
+	plain_content = base64.urlsafe_b64decode(content.encode("utf-8"))\
+	.decode("utf-8");    
+	#根据模板，添加"group"属性
+	plain_content += "&group=eXVuZmFu"; #yunfan    
+	return "ssr://" + base64.urlsafe_b64encode(
+	plain_content.encode("utf-8")).decode("utf-8");            
 
 def main():
 
-    md_ss = requests.get(url_ss_source).text;
-    md_v2ray = requests.get(url_v2ray_source).text;
-    
-    print(f"读取指定文档, 当前北京时间为 {current_time}")
-    
-    #write_to_local("freenodes-uri.txt", fn_uri_ec)
-    #html = read_from_local("v2ray_demo.html");
+	md_ss = requests.get(url_ss_source).text;
+	md_v2ray = requests.get(url_v2ray_source).text;
+	
+	print(f"读取指定文档, 当前北京时间为 {current_time}")
+	
+	#write_to_local("freenodes-uri.txt", fn_uri_ec)
+	#html = read_from_local("v2ray_demo.html");
 
-    #github
-    #ss://YWVzLTI1Ni1nY206ZG9uZ3RhaXdhbmcuY29t@[2001:bc8:32d7:2013::10]:11111#SS%E8%8A%82%E7%82%B9-ipv6
-    #alv_ss_ssr = re.findall(r"(ss://[A-Za-z0-9+-/=_@\[\]:#%]+|ssr://[A-Za-z0-9+/=]+)", md_ss);    
-    #alv_v2_mix = re.findall(r"(vmess://[A-Za-z0-9+/=]+|vless://|hysteria2://)", md_v2ray)
-    #同名称的md文件，在github中换行符号是\n ， 而在gitlab却是\r\n
-    #是作者同步的同一个文件吗，还是只名称一样？  
-    pattern_ss_md = r"(?<=```bash\r\n)[^`\r\n]+(?=\r\n```)" if \
-    url_ss_source.find("gitlab.com") else r"(?<=```bash\n)[^`\n]+(?=\n```)"
-    
-    pattern_v2_md = r"(?<=```bash\r\n)[^`\r\n]+(?=\r\n```)" if \
-    url_ss_source.find("gitlab.com") else r"(?<=```bash\n)[^`\n]+(?=\n```)"
-    
-    alv_ss_ssr = re.findall(pattern_ss_md, md_ss);    
-    alv_v2_mix = re.findall(pattern_v2_md, md_v2ray);
-    
-    print(f"获得配置， ss(ssr) * {len(alv_ss_ssr)}, v2ray * {len(alv_v2_mix)}")
-    #finding pure ssr , filter
-    alv_ss_iter = filter( lambda s : re.match(r"ss://", s), alv_ss_ssr)
-    alv_ssr_iter = filter( lambda s : re.match(r"ssr://", s), alv_ss_ssr)
+	#github
+	#ss://YWVzLTI1Ni1nY206ZG9uZ3RhaXdhbmcuY29t@[2001:bc8:32d7:2013::10]:11111#SS%E8%8A%82%E7%82%B9-ipv6
+	#alv_ss_ssr = re.findall(r"(ss://[A-Za-z0-9+-/=_@\[\]:#%]+|ssr://[A-Za-z0-9+/=]+)", md_ss);    
+	#alv_v2_mix = re.findall(r"(vmess://[A-Za-z0-9+/=]+|vless://|hysteria2://)", md_v2ray)
+	#同名称的md文件，在github中换行符号是\n ， 而在gitlab却是\r\n
+	#是作者同步的同一个文件吗，还是只名称一样？  
+	pattern_ss_md = r"(?<=```bash\r\n)[^`\r\n]+(?=\r\n```)" if \
+	url_ss_source.find("gitlab.com") else r"(?<=```bash\n)[^`\n]+(?=\n```)"
+	
+	pattern_v2_md = r"(?<=```bash\r\n)[^`\r\n]+(?=\r\n```)" if \
+	url_ss_source.find("gitlab.com") else r"(?<=```bash\n)[^`\n]+(?=\n```)"
+	
+	alv_ss_ssr = re.findall(pattern_ss_md, md_ss);    
+	alv_v2_mix = re.findall(pattern_v2_md, md_v2ray);
+	
+	print(f"获得配置， ss(ssr) * {len(alv_ss_ssr)}, v2ray * {len(alv_v2_mix)}")
+	#finding pure ssr , filter
+	alv_ss_iter = filter( lambda s : re.match(r"ss://", s), alv_ss_ssr)
+	alv_ssr_iter = filter( lambda s : re.match(r"ssr://", s), alv_ss_ssr)
 
-    #ssr 添加 group属性
-    alv_ssr_uris = [ add_ssr_group(ssr) for ssr in alv_ssr_iter]
-    
-    #将 ss-uri 转换成 json 格式 config    
-    ss_cfg_list = []
-    for s in alv_ss_iter:
-        ss_cfg_list.append(trans_uri2cfg(s))    
-    
-    #增加更多ss uri
-    fn_uri_ec = requests.get(ssv2_url_fn).text;
-    while len(fn_uri_ec) % 4 != 0:
-        fn_uri_ec += "=";
-    fn_ss_text = base64.urlsafe_b64decode(
-    fn_uri_ec.encode("utf-8")).decode("utf-8")
+	#ssr 添加 group属性
+	alv_ssr_uris = [ add_ssr_group(ssr) for ssr in alv_ssr_iter]
+	
+	#将 ss-uri 转换成 json 格式 config    
+	ss_cfg_list = []
+	for s in alv_ss_iter:
+		ss_cfg_list.append(trans_uri2cfg(s))    
+	
+	#增加更多ss uri
+	fn_uri_ec = requests.get(ssv2_url_fn).text;
+	while len(fn_uri_ec) % 4 != 0:
+		fn_uri_ec += "=";
+	fn_ss_text = base64.urlsafe_b64decode(
+	fn_uri_ec.encode("utf-8")).decode("utf-8")
 
-    fn_ss_list = fn_ss_text.split("\n");     
-    fn_ss_iter = filter(lambda s : re.match("ss://", s), fn_ss_list)        
-    for s in fn_ss_iter:
-        ss_cfg_list.append(trans_uri2cfg(s))
-    cfg_json = json.dumps({'version': 1,'servers': ss_cfg_list})
-    print(f"全部 ss * {len(ss_cfg_list)}") 
-    
-    #format
-    ssr_sub = base64.urlsafe_b64encode("\n".join(alv_ssr_uris)\
-    .encode("utf-8")).decode("utf-8");
-    #ss, ssr, v2
-    v2_mix_sub = base64.urlsafe_b64encode("\n".join(alv_ss_ssr + 
-    alv_v2_mix).encode("utf-8")).decode("utf-8");
+	fn_ss_list = fn_ss_text.split("\n");     
+	fn_ss_iter = filter(lambda s : re.match("ss://", s), fn_ss_list)        
+	for s in fn_ss_iter:		
+		ss_cfg_list.append(trans_uri2cfg(s))
+	cfg_json = json.dumps({'version': 1,'servers': ss_cfg_list})
+	print(f"全部 ss * {len(ss_cfg_list)}") 
+	
+	#format
+	ssr_sub = base64.urlsafe_b64encode("\n".join(alv_ssr_uris)\
+	.encode("utf-8")).decode("utf-8");
+	#ss, ssr, v2
+	v2_mix_sub = base64.urlsafe_b64encode("\n".join(alv_ss_ssr + 
+	alv_v2_mix).encode("utf-8")).decode("utf-8");
    
-    write_to_local("ss-cfg.json", cfg_json)
-    write_to_local("ssr-pure.txt", ssr_sub)
-    write_to_local("v2-mix.txt", v2_mix_sub)
-    
-    print(f"更新完成, 当前北京时间为 {current_time}")
+	write_to_local("ss-cfg.json", cfg_json)
+	write_to_local("ssr-pure.txt", ssr_sub)
+	write_to_local("v2-mix.txt", v2_mix_sub)
+	
+	print(f"更新完成, 当前北京时间为 {current_time}")
 
 if __name__ == "__main__":
-    main();
+	main();
