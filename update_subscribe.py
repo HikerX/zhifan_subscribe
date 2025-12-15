@@ -102,7 +102,7 @@ def trans_uri2cfg(uri_ss_encoded):
 	#ipv6 [2001:bc8:32d7:2013::10]:1111，提取ipv6地址需注意包围[]
 	unquoted_uri = urllib.parse.unquote(uri_ss_encoded);
 	#print(unquoted_uri);
-	pattern_ss = r"ss://(?P<userinfo>[\w=+-]+)@\[?(?P<hostname>[A-Za-z0-9:.]+)\]?:(?P<port>[A-Za-z0-9:.]+)(/\?plugin=)?(?P<plugin>[^;]+)?;?(?P<plugin_opts>[^#]+)?#(?P<tag>.+)"
+	pattern_ss = r"ss://(?P<userinfo>[\w=+-]+)@\[?(?P<hostname>[A-Za-z0-9-:.]+)\]?:(?P<port>[A-Za-z0-9:.]+)(/\?plugin=)?(?P<plugin>[^;]+)?;?(?P<plugin_opts>[^#]+)?#(?P<tag>.+)"
 	matched = re.match(pattern_ss, unquoted_uri)
 	#print(matched.group("hostname"))
 	#print(matched.group("port"))    
@@ -125,7 +125,9 @@ def trans_uri2cfg(uri_ss_encoded):
 		'method': info_sub[0],\
 		#如没有，则为“”， 而非null
 		'plugin': matched.group('plugin') or "",\
-		'plugin_opts': matched.group('plugin_opts') or ""\
+		#测试，是上游故意 把参数这么设置，还是意外弄错 obfs-hostwwx.gxn.de5.net
+		'plugin_opts': matched.group('plugin_opts') and re.sub(
+		r"host(?=[a-z0-1])", "host=", matched.group('plugin_opts'))  or ""\
 	}    
 	#print(cfg);
 	return cfg
