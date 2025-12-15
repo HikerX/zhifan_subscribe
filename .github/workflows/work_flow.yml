@@ -37,9 +37,10 @@ jobs:
 
       # 6. 提交和推送更新到主仓库
       - name: Commit and Push Updates
-        run: |
+        run: |		  
           git config --local user.name "github-actions"
           git config --local user.email "actions@github.com"          
           git add .
-          git commit -m "Auto-update subscribe file" || echo "No changes to commit"          
+          current_time=$(TZ=Asia/Shanghai date +"%m-%d %T");
+          git commit -m "Auto-update $current_time" || echo "No changes to commit"          
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/HikerX/zhifan_subscribe.git
