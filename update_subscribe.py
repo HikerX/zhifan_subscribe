@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/bin/python3
 
 '''
 目标
@@ -54,12 +54,12 @@ https://gh-proxy.com/
 import os;
 import requests;
 import re;
-from datetime import datetime
 import pytz
 import base64;
 import json
 import uuid;
 import urllib.parse
+from datetime import datetime
 
 IS_GITHUB_ACTION = bool(os.getenv("GITHUB_ACTION"));
 
@@ -75,18 +75,19 @@ else:
 	url_v2ray_source = "https://gitlab.com/zhifan999/fq/-/wikis/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md";
 	ssv2_url_fn="https://proxy.v2gh.com/https://raw.githubusercontent.com/ssrsub/ssr/master/v2ray";
 
+pattern_ss = r"ss://(?P<userinfo>[\w=+-]+)@\[?(?P<hostname>[A-Za-z0-9-:.]+)\]?:(?P<port>[A-Za-z0-9:.]+)(/\?plugin=)?(?P<plugin>[^;]+)?;?(?P<plugin_opts>[^#]+)?#(?P<tag>.+)"
+
 #实测 uri多，但是基本都是无效
 #ssv2_url_fn = "https://proxy.v2gh.com/https://raw.githubusercontent.com/free-nodes/v2rayfree/main/v2"
 
 # ====== 获取当前北京时间 ======
-shanghai_tz = pytz.timezone("Asia/Shanghai")
-current_time = datetime.now(shanghai_tz).strftime("%Y/%m/%d %H:%M")
+def get_current_time():
+	shanghai_tz = pytz.timezone("Asia/Shanghai")
+	return datetime.now(shanghai_tz).strftime("%Y/%m/%d %H:%M:%S")
 
 def write_to_local(file_name, content):
 	with open(file_name, "w") as file:
 		file.write(content);       
-
-#write_to_local("v2ray_demo.html", html);
 
 def read_from_local(file_name):
 	with open(file_name, "r") as file:
@@ -94,15 +95,12 @@ def read_from_local(file_name):
 
 #将SS-URI链接转换为在线更新要求的json格式配置
 #https://shadowsocks.org/doc/sip008.html
-def trans_uri2cfg(uri_ss_encoded):
+def docode_uri2cfg(uri_ss):
 	#SS-URI = "ss://" userinfo "@" hostname ":" port [ "/" ] [ "?" plugin ] [ "#" tag ]
 	#userinfo = websafe-base64-encode-utf8(method  ":" password)
-	#           method ":" password 
-	# hostname ipv4 111.22.22.33:2345, 
-	#ipv6 [2001:bc8:32d7:2013::10]:1111，提取ipv6地址需注意包围[]
-	unquoted_uri = urllib.parse.unquote(uri_ss_encoded);
-	#print(unquoted_uri);
-	pattern_ss = r"ss://(?P<userinfo>[\w=+-]+)@\[?(?P<hostname>[A-Za-z0-9-:.]+)\]?:(?P<port>[A-Za-z0-9:.]+)(/\?plugin=)?(?P<plugin>[^;]+)?;?(?P<plugin_opts>[^#]+)?#(?P<tag>.+)"
+	#ipv6 [2001:bc8:32d7:2013::10]:1111，提取ipv6地址需注意包围[]	
+	unquoted_uri = urllib.parse.unquote(uri_ss);
+	#print(unquoted_uri);	
 	matched = re.match(pattern_ss, unquoted_uri)
 	#print(matched.group("hostname"))
 	#print(matched.group("port"))    
@@ -114,7 +112,9 @@ def trans_uri2cfg(uri_ss_encoded):
 	info_sub = info.split(":");
 	uuidv4 = str(uuid.uuid4())
 	#print(uuidv4)
-	
+	if  matched.group('plugin') :
+		print( f"️{uri_ss} \n🔩插件 {matched.group('plugin')}, " \
+		f"{matched.group('plugin_opts')}\n")
 	cfg = {\
 		'id': uuidv4, \
 		'remarks': urllib.parse.unquote(matched.group('tag')),\
@@ -123,10 +123,10 @@ def trans_uri2cfg(uri_ss_encoded):
 		'server_port': int(matched.group('port')),\
 		'password': info_sub[1],\
 		'method': info_sub[0],\
+		#如没有，则为“”， 而非null
 		'plugin': matched.group('plugin') or "",\
-		#猜测，上游抓取异常，导致插件参数错误 如"obfs-hostwwx.gxn.de5.net"
-		'plugin_opts': matched.group('plugin_opts') and re.sub(
-		r"host(?=[\w-])", "host=", matched.group('plugin_opts')) or ""\
+		#测试，是上游故意 把参数这么设置，还是意外弄错 obfs-hostwwx.gxn.de5.net
+		'plugin_opts': matched.group('plugin_opts') or ""\
 	}    
 	#print(cfg);
 	return cfg
@@ -143,11 +143,9 @@ def add_ssr_group(ssr_url):
 	plain_content.encode("utf-8")).decode("utf-8");            
 
 def main():
-
+	print(f"读取指定md文档, 当前北京时间为 {get_current_time()}")
 	md_ss = requests.get(url_ss_source).text;
-	md_v2ray = requests.get(url_v2ray_source).text;
-	
-	print(f"读取指定文档, 当前北京时间为 {current_time}")
+	md_v2ray = requests.get(url_v2ray_source).text;	
 	
 	write_to_local("wiki_ss.md", md_ss)
 	write_to_local("wiki_v2ray.md", md_v2ray)
@@ -165,8 +163,8 @@ def main():
 	alv_ss_ssr = re.findall(pattern_uri_md, md_ss);    
 	alv_v2_mix = re.findall(pattern_uri_md, md_v2ray);
 	
-	print(f"获得配置， ss(ssr) * {len(alv_ss_ssr)}, v2ray * {len(alv_v2_mix)}")
-	#finding pure ssr , filter
+	print(f"获得配置  ss(ssr) * {len(alv_ss_ssr)}, v2ray * {len(alv_v2_mix)}")
+	#来源可靠，简单匹配
 	alv_ss_iter = filter( lambda s : re.match(r"ss://", s), alv_ss_ssr)
 	alv_ssr_iter = filter( lambda s : re.match(r"ssr://", s), alv_ss_ssr)
 
@@ -176,34 +174,34 @@ def main():
 	#将 ss-uri 转换成 json 格式 config    
 	ss_cfg_list = []
 	for s in alv_ss_iter:
-		ss_cfg_list.append(trans_uri2cfg(s))    
-	
-	#增加更多ss uri
+		ss_cfg_list.append(docode_uri2cfg(s))		
+
+	#增加更多ss uri, 数量多，但质量不高，且有的连格式都不合规，严格匹配过滤
 	fn_uri_ec = requests.get(ssv2_url_fn).text;
 	while len(fn_uri_ec) % 4 != 0:
 		fn_uri_ec += "=";
-	fn_ss_text = base64.urlsafe_b64decode(
-	fn_uri_ec.encode("utf-8")).decode("utf-8")
+	fn_ss_text = base64.urlsafe_b64decode(fn_uri_ec.encode("utf-8")
+	).decode("utf-8")
 
 	fn_ss_list = fn_ss_text.split("\n");     
-	fn_ss_iter = filter(lambda s : re.match("ss://", s), fn_ss_list)        
-	for s in fn_ss_iter:		
-		ss_cfg_list.append(trans_uri2cfg(s))
+	fn_ss_iter = filter(lambda s : re.match(pattern_ss, s), fn_ss_list)       
+	for s in fn_ss_iter:
+		#print(s);
+		ss_cfg_list.append(docode_uri2cfg(s))
 	cfg_json = json.dumps({'version': 1,'servers': ss_cfg_list})
 	print(f"全部 ss * {len(ss_cfg_list)}") 
 	
 	#format
-	ssr_sub = base64.urlsafe_b64encode("\n".join(alv_ssr_uris)\
-	.encode("utf-8")).decode("utf-8");
+	ssr_sub = base64.urlsafe_b64encode("\n".join(alv_ssr_uris).encode(
+	"utf-8")).decode("utf-8");
 	#ss, ssr, v2
 	v2_mix_sub = base64.urlsafe_b64encode("\n".join(alv_ss_ssr + 
 	alv_v2_mix).encode("utf-8")).decode("utf-8");
    
 	write_to_local("ss-cfg.json", cfg_json)
 	write_to_local("ssr-pure.txt", ssr_sub)
-	write_to_local("v2-mix.txt", v2_mix_sub)
-	
-	print(f"更新完成, 当前北京时间为 {current_time}")
+	write_to_local("v2-mix.txt", v2_mix_sub)	
+	print(f"更新完成, 当前北京时间为 {get_current_time()}")
 
 if __name__ == "__main__":
 	main();
