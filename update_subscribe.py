@@ -65,8 +65,11 @@ IS_GITHUB_ACTION = bool(os.getenv("GITHUB_ACTION"));
 
 if IS_GITHUB_ACTION:
 	print("当前在Github Action环境")
-	url_ss_source = "https://raw.githubusercontent.com/wiki/Alvin9999/new-pac/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md";
-	url_v2ray_source = "https://raw.githubusercontent.com/wiki/Alvin9999/new-pac/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md"; 
+    #251219居然删库了？
+	#url_ss_source = "https://raw.githubusercontent.com/wiki/Alvin9999/new-pac/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md";
+	#url_v2ray_source = "https://raw.githubusercontent.com/wiki/Alvin9999/new-pac/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md"; 
+	url_ss_source = "https://gitlab.com/zhifan999/fq/-/wikis/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md";
+	url_v2ray_source = "https://gitlab.com/zhifan999/fq/-/wikis/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7.md";    
 	#实测 虽然广告多，可用，速度高
 	ssv2_url_fn="https://raw.githubusercontent.com/ssrsub/ssr/master/v2ray";
 else:
