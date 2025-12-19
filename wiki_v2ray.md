@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## 🚀 v2ray免费账号/节点（长期更新）
 
 ### 🌍 翻墙后推荐网站：
@@ -200,3 +201,6 @@ iOS：[没有美区AppleID的翻墙教程](https://gitlab.com/zhifan999/fq/-/wik
 ***
 
 如有问题，请发邮件至海外邮箱 [rebeccalane27@gmail.com](mailto:rebeccalane27@gmail.com)
+=======
+404: Not Found
+>>>>>>> 67bb3855f52dca4f0b86bf3bb5fdfe548e752805
