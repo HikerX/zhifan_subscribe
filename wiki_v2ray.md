@@ -50,7 +50,7 @@
 
 ***
 
-**更新时间**： 北京时间2025年12月18日9点30分更新
+**更新时间**： 北京时间2025年12月22日1点30分更新
 
 ⚠️通知：2025年8月20日凌晨 00:34–01:48（UTC+8），大陆网络发生突发性大规模异常，境外ipv4 443 端口（HTTPS 加密访问）流量在此期间一度被全面屏蔽。虽然持续时间仅一小时左右，但不少人推测这可能是长城防火墙（GFW）升级后的深夜测试演练。根据网络社区反馈，当时极端情况下 **IPv6 网络翻墙并未受阻**。考虑到未来类似大规模封锁或将成为常态，因此有必要提前做好准备：学习如何开启并使用 IPv6 网络。 参考Windows 7/8/10/11、Linux、macOS，以及路由器的 [IPv6开启与配置教程](https://gitlab.com/zhifan999/fq/-/wikis/IPv6%E5%BC%80%E5%90%AF%E4%B8%8E%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B)。
 
@@ -63,8 +63,8 @@
 
 | 备用网址 | 描述 |
 |---------------------|-------------------------------------------|
-| [https://lgithub.xyz/Alvin9999/new-pac/wiki/v2ray免费账号](https://lgithub.xyz/Alvin9999/new-pac/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7) | 国内访问GitHub镜像，建议保存 |
-| [https://github.com/Alvin9999/new-pac/wiki/v2ray免费账号](https://github.com/Alvin9999/new-pac/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7) | GitHub官网，建议保存 |
+| [https://lgithub.xyz/Alvin9999-newpac/fanqiang/wiki/v2ray免费账号](https://lgithub.xyz/Alvin9999-newpac/fanqiang/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7) | 国内访问GitHub镜像，建议保存 |
+| [https://github.com/Alvin9999-newpac/fanqiang/wiki/v2ray免费账号](https://github.com/Alvin9999-newpac/fanqiang/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7) | GitHub官网，建议保存 |
 | [https://jj5.xyz/v2ray免费账号](https://jj5.xyz/v2ray免费账号) | Free Air，仅限IPV6网络访问|
 | [https://s3.dualstack.us-west-2.amazonaws.com/zhifan2/v2ray.html](https://s3.dualstack.us-west-2.amazonaws.com/zhifan2/v2ray.html) | Free Air|
 

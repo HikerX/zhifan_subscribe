@@ -46,7 +46,7 @@
 
 ***
 
-**更新时间：** 北京时间2025年12月19日10点00分
+**更新时间：** 北京时间2025年12月22日1点30分
 
 **⚠️注意：** SSR和SS是比较老的一种协议，可能安全性不强，建议更换为[免费v2ray账号](https://gitlab.com/zhifan999/fq/-/wikis/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7)
 
@@ -60,8 +60,8 @@
 
 | 备用网址 | 描述 |
 |---------------------|-------------------------------------------|
-| [https://lgithub.xyz/Alvin9999/new-pac/wiki/ss免费账号](https://lgithub.xyz/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7) | 国内访问GitHub镜像，建议保存 |
-| [https://github.com/Alvin9999/new-pac/wiki/ss免费账号](https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7) | GitHub官网，建议保存 |
+| [https://lgithub.xyz/Alvin9999-newpac/fanqiang/wiki/ss免费账号](https://lgithub.xyz/Alvin9999-newpac/fanqiang/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7) | 国内访问GitHub镜像，建议保存 |
+| [https://github.com/Alvin9999-newpac/fanqiang/wiki/ss免费账号](https://github.com/Alvin9999-newpac/fanqiang/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7) | GitHub官网，建议保存 |
 | [https://jj5.xyz/ss免费账号](https://jj5.xyz/ss免费账号) | Free Air，仅限IPV6网络访问|
 | [https://s3.dualstack.us-west-2.amazonaws.com/zhifan2/ss.html](https://s3.dualstack.us-west-2.amazonaws.com/zhifan2/ss.html) |Free Air  |
  
