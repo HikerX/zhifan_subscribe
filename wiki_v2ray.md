@@ -64,7 +64,7 @@
 | 备用网址 | 描述 |
 |---------------------|-------------------------------------------|
 | [https://lgithub.xyz/Alvin9999-newpac/fanqiang/wiki/v2ray免费账号](https://lgithub.xyz/Alvin9999-newpac/fanqiang/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7) | 国内访问GitHub镜像，建议保存 |
-| [https://github.com/Alvin9999-newpac/fanqiang/wiki/v2ray免费账号](https://github.com/Alvin9999-newpac/fanqiang/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7) | GitHub官网，建议保存 |
+| [https://github.com/Alvin9999-newpac/fanqiang/wiki/v2ray免费账号](https://github.com/Alvin9999-newpac/fanqiang/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7) | GitHub 网站，建议保存 |
 | [https://jj5.xyz/v2ray免费账号](https://jj5.xyz/v2ray免费账号) | Free Air，仅限IPV6网络访问|
 | [https://s3.dualstack.us-west-2.amazonaws.com/zhifan2/v2ray.html](https://s3.dualstack.us-west-2.amazonaws.com/zhifan2/v2ray.html) | Free Air|
 
