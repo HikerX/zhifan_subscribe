@@ -179,8 +179,8 @@ def main():
     ).decode("utf-8")
     extra_uri_list = extra_uri_plain.split("\n");     
     extra_ss_iter = filter(lambda s : re.match(pattern_ss, s), extra_uri_list);    
-    extra_ss_list = list(extra_ss_iter);
-    for s in extra_ss_iter:
+    extra_ss_list = list(extra_ss_iter); #
+    for s in extra_ss_list:
         #print(s);
         ss_cfg_list.append(docode_uri2cfg(s))
     ss_json = json.dumps({'version': 1,'servers': ss_cfg_list})
