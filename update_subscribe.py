@@ -164,7 +164,7 @@ def main():
     #来源可靠，简单匹配
     alv_ss_iter = filter( lambda s : re.match(r"ss://", s), alv_ss_ssr)
     alv_ssr_iter = filter( lambda s : re.match(r"ssr://", s), alv_ss_ssr)
-    
+    alv_ss_list = list(alv_ss_iter);
     #ssr 添加 group属性
     alv_ssr_uris = [ add_ssr_group(ssr) for ssr in alv_ssr_iter];
     #将 ss-uri 转换成 json 格式 config    
@@ -180,6 +180,7 @@ def main():
     ).decode("utf-8")
     extra_uri_list = extra_uri_plain.split("\n");     
     extra_ss_iter = filter(lambda s : re.match(pattern_ss, s), extra_uri_list);    
+    extra_ss_list = list(extra_ss_iter);
     for s in extra_ss_iter:
         #print(s);
         ss_cfg_list.append(docode_uri2cfg(s))
@@ -187,8 +188,8 @@ def main():
     print(f"全部 ss * {len(ss_cfg_list)}") 
     
     #format
-    ss_sub = base64.urlsafe_b64encode("\n".join( list(alv_ss_iter) + 
-    list(extra_ss_iter)).encode("utf-8")).decode("utf-8");
+    ss_sub = base64.urlsafe_b64encode("\n".join( alv_ss_list + 
+    extra_ss_list).encode("utf-8")).decode("utf-8");
     ssr_sub = base64.urlsafe_b64encode("\n".join(alv_ssr_uris).encode(
     "utf-8")).decode("utf-8");
     #ss, ssr, v2
