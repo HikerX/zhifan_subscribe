@@ -10,10 +10,16 @@ permissions:
 
 jobs:
   update-uri-sub:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
 
     steps:
-      # 1. 检出主仓库（包含 v2_sub, ssr_sub 和 脚本）
+      # 1.设置时区
+      - name: Set up Timezone
+        uses: szenius/set-timezone@v2.0
+        with: 
+          timezoneLinux: "Asia/Shanghai"      
+    
+      # 2. 检出主仓库（包含 v2_sub, ssr_sub 和 脚本）
       - name: Checkout Main Repository
         uses: actions/checkout@v3
         with:
@@ -37,7 +43,8 @@ jobs:
 
       # 6. 提交和推送更新到主仓库
       - name: Commit and Push Updates
-        run: |		  
+        run: |
+          curl http://ip-api.com/json   #ip
           git config --local user.name "github-actions"
           git config --local user.email "actions@github.com"          
           git add .
