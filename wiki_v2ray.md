@@ -48,7 +48,7 @@
 
 ***
 
-**更新时间：** 北京时间2025年12月18日9点30分更新
+**更新时间：** 北京时间2025年12月30日17点30分更新
 
 ⚠️通知：2025年8月20日凌晨 00:34–01:48（UTC+8），大陆网络发生突发性大规模异常，境外ipv4 443 端口（HTTPS 加密访问）流量在此期间一度被全面屏蔽。虽然持续时间仅一小时左右，但不少人推测这可能是长城防火墙（GFW）升级后的深夜测试演练。根据网络社区反馈，当时极端情况下 IPv6 网络翻墙并未受阻。考虑到未来类似大规模封锁或将成为常态，因此有必要提前做好准备：学习如何开启并使用 IPv6 网络。 参考Windows 7/8/10/11、Linux、macOS，以及路由器的 [IPv6开启与配置教程](https://github.com/Alvin9999-newpac/fanqiang/wiki/IPv6%E5%BC%80%E5%90%AF%E4%B8%8E%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B)。
 
@@ -104,22 +104,22 @@ vless://3fb38b37-c636-44d3-ab0c-897fab438bf1@62.210.8.152:18877?encryption=none&
 
 | 节点参数               | 参数值                              |
 |--------------------|-----------------------------------|
-| Address（地址）    | 2001:bc8:32d7:2013::8|
-| Port（端口）       | 62211|
-| UUID（用户ID）     | e1786d49-ccba-466b-a0dd-e1ab59bd83bb |
+| Address（地址）    | 2a14:7583:29d9::a|
+| Port（端口）       | 11335|
+| UUID（用户ID）     | 3d673b53-6979-4d80-a4be-665cf36cac10 |
 | alterid（额外ID）     | 0                 |
 | security（加密方式）| auto                           |
 | network（传输协议） | ws                               |
 | headerType（伪装类型）| none                           |
 | host（伪装域名）            | www.bing.com                        |
-| path（路径）   | /github.com/Alvin9999                           |
+| path（路径）   | /github.com/Alvin9999-newpac                          |
 | TLS (传输层安全)   | 不填                     |
 
 
 **节点2（vmess）一键导入链接**
 
 ```bash
-vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogIlZNRVNT6IqC54K5Mi1pcHY2IiwNCiAgImFkZCI6ICIyMDAxOmJjODozMmQ3OjIwMTM6OjgiLA0KICAicG9ydCI6ICI2MjIxMSIsDQogICJpZCI6ICJlMTc4NmQ0OS1jY2JhLTQ2NmItYTBkZC1lMWFiNTliZDgzYmIiLA0KICAiYWlkIjogIjAiLA0KICAic2N5IjogImF1dG8iLA0KICAibmV0IjogIndzIiwNCiAgInR5cGUiOiAibm9uZSIsDQogICJob3N0IjogInd3dy5iaW5nLmNvbSIsDQogICJwYXRoIjogIi9naXRodWIuY29tL0FsdmluOTk5OSIsDQogICJ0bHMiOiAiIiwNCiAgInNuaSI6ICIiLA0KICAiYWxwbiI6ICIiLA0KICAiZnAiOiAiIg0KfQ==
+vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogIlZNRVNT6IqC54K5Mi1pcHY2IiwNCiAgImFkZCI6ICIyYTE0Ojc1ODM6MjlkOTo6YSIsDQogICJwb3J0IjogIjExMzM1IiwNCiAgImlkIjogIjNkNjczYjUzLTY5NzktNGQ4MC1hNGJlLTY2NWNmMzZjYWMxMCIsDQogICJhaWQiOiAiMCIsDQogICJzY3kiOiAiYXV0byIsDQogICJuZXQiOiAid3MiLA0KICAidHlwZSI6ICJub25lIiwNCiAgImhvc3QiOiAid3d3LmJpbmcuY29tIiwNCiAgInBhdGgiOiAiL2dpdGh1Yi5jb20vQWx2aW45OTk5LW5ld3BhYyIsDQogICJ0bHMiOiAiIiwNCiAgInNuaSI6ICIiLA0KICAiYWxwbiI6ICIiLA0KICAiZnAiOiAiIg0KfQ==
 ```
 
 **🚀 节点3（hysteria2）**
@@ -129,8 +129,8 @@ vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogIlZNRVNT6IqC54K5Mi1pcHY2IiwNCiAgImFkZCI6
 
 | 节点参数               | 参数值                              |
 |--------------------|-----------------------------------|
-| Address（地址）    | 109.104.152.244|
-| Port（端口）       | 11220|
+| Address（地址）    | 89.144.35.25|
+| Port（端口）       | 33550|
 | Password（密码）     | dongtaiwang.com |
 | TLS（传输层安全）   | tls                           |
 | SNI (serverName)   | apple.com               |
@@ -138,10 +138,11 @@ vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogIlZNRVNT6IqC54K5Mi1pcHY2IiwNCiAgImFkZCI6
 | AllowInsecure （跳过证书验证） | true|
 
 
+
 **节点3（hysteria2）一键导入链接**
 
 ```bash
-hysteria2://dongtaiwang.com@109.104.152.244:11220?sni=apple.com&alpn=h3&insecure=1#Hysteria2%E8%8A%82%E7%82%B93
+hysteria2://dongtaiwang.com@89.144.35.25:33550?sni=apple.com&alpn=h3&insecure=1#Hysteria2%E8%8A%82%E7%82%B93
 ```
 
 **如果想搭建自己的v2ray节点，参考[自建v2ray服务器教程](https://github.com/Alvin9999-newpac/fanqiang/wiki/%E8%87%AA%E5%BB%BAv2ray%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%95%99%E7%A8%8B) （共18个节点） 。也可以考虑[付费v2ray账号](https://github.com/Alvin9999-newpac/fanqiang/wiki/V2free%E6%9C%BA%E5%9C%BA) ,2020年开始已稳定运行5年。**
