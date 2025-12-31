@@ -66,7 +66,7 @@
 | [https://s3.dualstack.us-west-2.amazonaws.com/zhifan2/ss.html](https://s3.dualstack.us-west-2.amazonaws.com/zhifan2/ss.html)         | Free Air镜像，建议保存|    
 | [https://jj5.xyz/ss免费账号](https://jj5.xyz/ss免费账号)         | Free Air镜像，仅限IPV6网络访问|     
 | [https://gitlab.com/zhifan999/fq/-/wikis/ss免费账号](https://gitlab.com/zhifan999/fq/-/wikis/ss免费账号)         | GitLab 网站，建议保存                      | 
-| [https://2github.com/Alvin9999-newpac/fanqiang/wiki/ss免费账号](https://2github.com/Alvin9999-newpac/fanqiang/wiki/ss免费账号) | GitHub镜像，仅限大陆地区访问 |  
+| [https://bgithub.xyz/Alvin9999-newpac/fanqiang/wiki/ss免费账号](https://bgithub.xyz/Alvin9999-newpac/fanqiang/wiki/ss免费账号) | GitHub镜像，仅限大陆地区访问 |  
 
 ***
 
